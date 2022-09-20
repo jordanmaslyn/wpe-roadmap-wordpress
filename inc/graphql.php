@@ -4,7 +4,7 @@
 
 add_filter('graphql_PostObjectsConnectionOrderbyEnum_values', function ($values) {
     $values['RELEASE_STATUS'] = [
-        'value' => 'release_status',
+        'value' => 'release_status_order',
         'description' => __('The order value of the release status taxonomy term applied', 'wp-graphql'),
     ];
 
@@ -17,13 +17,13 @@ add_filter('graphql_post_object_connection_query_args', function ($query_args, $
 
         foreach ($input['where']['orderby'] as $orderby) {
 
-            if (!isset($orderby['field']) || 'release_status' !== $orderby['field']) {
+            if (!isset($orderby['field']) || 'release_status_order' !== $orderby['field']) {
                 continue;
             }
 
-            $query_args['meta_key'] = 'release_status_order';
-            $query_args['orderby'] = 'meta_value_num';
-            $query_args['order'] = $orderby['order'];
+            $query_args['meta_type'] = 'NUMERIC';
+            $query_args['meta_key']  = 'release_status_order';
+            $query_args['orderby'] = ['meta_value_num' => $orderby['order']];
         }
     }
 
